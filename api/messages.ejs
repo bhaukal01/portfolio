@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Messages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #f4f4f4;
+        }
+
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>📩 Contact Messages</h1>
+    <% if (messages.length===0) { %>
+        <p>No messages yet.</p>
+        <% } else { %>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                </tr>
+                <% messages.forEach(msg=> { %>
+                    <tr>
+                        <td>
+                            <%= msg.id %>
+                        </td>
+                        <td>
+                            <%= msg.name %>
+                        </td>
+                        <td>
+                            <%= msg.email %>
+                        </td>
+                        <td>
+                            <%= msg.phone %>
+                        </td>
+                        <td>
+                            <%= msg.message %>
+                        </td>
+                        <td>
+                            <%= msg.date %>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </table>
+            <% } %>
+</body>
+
+</html>

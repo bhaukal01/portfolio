@@ -1,0 +1,41 @@
+[
+    {
+        "projectName": "project",
+        "projectBrief": "Brief",
+        "projectDetailDescription": "description",
+        "projectLiveLink": "soon",
+        "projectTimeline": "Timeline",
+        "projectGithubLink": "soon",
+        "technologies": [
+            "tech1",
+            "tech2"
+        ],
+        "projectImage": "http://placehold.co/600x400"
+    },
+    {
+        "projectName": "project",
+        "projectBrief": "Brief",
+        "projectDetailDescription": "description",
+        "projectLiveLink": "soon",
+        "projectTimeline": "Timeline",
+        "projectGithubLink": "soon",
+        "technologies": [
+            "tech1",
+            "tech2"
+        ],
+        "projectImage": "http://placehold.co/600x400"
+    },
+    {
+        "projectName": "project",
+        "projectBrief": "Brief",
+        "projectDetailDescription": "description",
+        "projectLiveLink": "soon",
+        "projectTimeline": "Timeline",
+        "projectGithubLink": "soon",
+        "technologies": [
+            "tech1",
+            "tech2"
+        ],
+        "projectImage": "http://placehold.co/600x400"
+    }
+]

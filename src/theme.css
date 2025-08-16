@@ -1,0 +1,63 @@
+/* CLASSIC — light lime-greenish */
+body.classic {
+  --nav-bg: color-mix(in srgb, #f1fbe7 88%, transparent);
+  --nav-border: #d9f0c7;
+  --nav-fg: #0f172a;
+  --nav-accent: #2bb673;
+
+  --btn-bg: #f7fbf3;
+  --btn-hover: #eef8e6;
+  --btn-fg: #0f172a;
+  --btn-border: #d9f0c7;
+
+  --menu-bg: #ffffff;
+  --menu-border: #e3f3d5;
+}
+
+/* AZURE — resembles Microsoft Azure Portal chrome */
+body.azure {
+  --nav-bg: color-mix(in srgb, #ffffff 92%, transparent);
+  --nav-border: #d7e3ff;
+  --nav-fg: #0b1a33;
+  --nav-accent: #0078d4;
+
+  --btn-bg: #f2f7ff;
+  --btn-hover: #e6f0ff;
+  --btn-fg: #0b1a33;
+  --btn-border: #d7e3ff;
+
+  --menu-bg: #ffffff;
+  --menu-border: #d7e3ff;
+}
+
+/* GCP — resembles Google Cloud console (light) */
+body.gcp {
+  --nav-bg: color-mix(in srgb, #ffffff 92%, transparent);
+  --nav-border: #e0e3e7;
+  --nav-fg: #1f1f1f;
+  --nav-accent: #1a73e8;
+
+  --btn-bg: #fafafa;
+  --btn-hover: #f1f3f4;
+  --btn-fg: #1f1f1f;
+  --btn-border: #e0e3e7;
+
+  --menu-bg: #ffffff;
+  --menu-border: #e0e3e7;
+}
+
+/* AWS — resembles AWS console (dark navy) */
+body.aws {
+  --nav-bg: color-mix(in srgb, #0b1220 88%, transparent);
+  --nav-border: #22314d;
+  --nav-fg: #e5ecff;
+  --nav-accent: #ff9900;
+
+  --btn-bg: color-mix(in srgb, #0f172a 78%, transparent);
+  --btn-hover: #182342;
+  --btn-fg: #e5ecff;
+  --btn-border: #22314d;
+
+  --menu-bg: #0f172a;
+  --menu-border: #22314d;
+}

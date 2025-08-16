@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "title": "Linux Commands and Bash Shell Scripting",
+        "issuer": "IBM @ Coursera",
+        "date": "18-Apr-2024",
+        "description": "Gained hands-on proficiency in Linux commands and shell scripting for automation through a certification course by IBM.",
+        "certificateUrl": "https://ik.imagekit.io/1usyzu9ab/Linux%20Shell%20Scripting.pdf"
+    },
+    {
+        "id": 3,
+        "title": "Gen AI Workshop",
+        "issuer": "NxtWave",
+        "date": "3-Jul-2024",
+        "description": "Gained insights into Generative AI concepts and applications through a workshop by NxtWave.",
+        "certificateUrl": "https://ik.imagekit.io/1usyzu9ab/Aditya%20NxtWave.jpg"
+    },
+    {
+        "id": 2,
+        "title": "Fundamentals of Java Programming",
+        "issuer": "Board Infinity @ Coursera",
+        "date": "4-Aug-2024",
+        "description": "Built a solid foundation in Java programming and core algorithms through the \"Fundamentals of Java Programming\" course by Board Infinity.",
+        "certificateUrl": "https://ik.imagekit.io/1usyzu9ab/Fundamentals%20of%20Java.pdf"
+    }
+]

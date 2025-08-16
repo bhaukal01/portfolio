@@ -1,0 +1,99 @@
+{
+    "about": {
+        "name": "Aditya Narayan",
+        "title": "Full Stack Developer",
+        "image": "https://placehold.co/352x263?text=Profile+Image",
+        "summary": "Likh dunga baad me"
+    },
+    "contact": {
+        "email": "narayanadi2017@gmail.com",
+        "phone": "+91-7367036311",
+        "location": "Bhubaneswar, Odisha, India"
+    },
+    "skills": {
+        "languages": [
+            "Java",
+            "Python",
+            "JavaScript"
+        ],
+        "frontend": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "React"
+        ],
+        "backend": [
+            "Node.js",
+            "Express"
+        ],
+        "database": [
+            "MySQL",
+            "MongoDB"
+        ],
+        "tools": [
+            "Git",
+            "VS Code"
+        ],
+        "cloud": [
+            "AWS",
+            "Azure",
+            "GCP"
+        ],
+        "devops": [
+            "Docker",
+            "Terraform",
+            "Kubernetes",
+            "Containerization"
+        ],
+        "other": [
+            "Linux Administration",
+            "Monitoring",
+            "Documentation",
+            "API Design",
+            "RESTful APIs"
+        ]
+    },
+    "education": [
+        {
+            "level": "Secondary",
+            "board": "CBSE",
+            "school": "Jawahar Vidya Mandir",
+            "percentage": "79%",
+            "year": "2020"
+        },
+        {
+            "level": "Senior Secondary",
+            "board": "CBSE",
+            "school": "Kairali School Ranchi",
+            "year": "2022",
+            "percentage": "71%"
+        },
+        {
+            "level": "Undergraduate",
+            "board": "B.Tech, Computer Science and Engineering",
+            "school": "Institute of Technical Education and Research, SOA",
+            "percentage": "---",
+            "year": "2026"
+        }
+    ],
+    "experience": [
+        {
+            "role": "Internship 1",
+            "company": "Company",
+            "duration": "Timeline",
+            "description": "Description"
+        },
+        {
+            "role": "Internship 2",
+            "company": "Company",
+            "duration": "Timeline",
+            "description": "Description"
+        }
+    ],
+    "socials": {
+        "linkedin": "https://www.linkedin.com/in/aditya-narayan-460559198/",
+        "github": "https://github.com/bhaukal01",
+        "X": "https://x.com/bhaukal_09",
+        "instagram": "https://www.instagram.com/narayanadi2018/"
+    }
+}
