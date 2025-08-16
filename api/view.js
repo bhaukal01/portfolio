@@ -2,7 +2,7 @@ import { get } from "@vercel/blob";
 import ejs from "ejs";
 import path from "path";
 
-export const config = { runtime: "nodejs18.x" };
+export const config = { runtime: "nodejs" };
 
 export default async function handler(req, res) {
     try {

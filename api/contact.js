@@ -1,6 +1,6 @@
 import { put, get } from "@vercel/blob";
 
-export const config = { runtime: "nodejs18.x" };
+export const config = { runtime: "nodejs" };
 
 export default async function handler(req, res) {
     try {
@@ -56,11 +56,13 @@ export default async function handler(req, res) {
         const blob = await put(key, JSON.stringify(arr, null, 2), {
             access: "public",
             contentType: "application/json",
-            // addRandomSuffix defaults to false -> overwrite same key
+            // default addRandomSuffix=false -> overwrite same key
         });
 
         console.log("contacts.json updated:", blob.url, "count:", arr.length);
-        return res.status(200).json({ success: true, url: blob.url, saved: entry, count: arr.length });
+        return res
+            .status(200)
+            .json({ success: true, url: blob.url, saved: entry, count: arr.length });
     } catch (err) {
         console.error("contact error:", err);
         return res.status(500).json({ error: "Server error", detail: String(err) });
