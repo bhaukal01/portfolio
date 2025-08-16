@@ -1,4 +1,4 @@
-import { get } from "@vercel/blob";
+import { list } from "@vercel/blob";
 import ejs from "ejs";
 import path from "path";
 
@@ -7,18 +7,28 @@ export const config = { runtime: "nodejs" };
 export default async function handler(req, res) {
     try {
         let messages = [];
-        try {
-            const { url } = await get("contacts.json");
-            const r = await fetch(url, { cache: "no-store" });
-            if (r.ok) {
-                messages = await r.json();
+
+        // List all blobs under "contacts/"
+        const { blobs } = await list({ prefix: "contacts/" });
+
+        for (const blob of blobs) {
+            try {
+                const r = await fetch(blob.url, { cache: "no-store" });
+                if (r.ok) {
+                    const data = await r.json();
+                    messages.push(data);
+                }
+            } catch {
+                // ignore bad blobs
             }
-        } catch {
-            messages = [];
         }
+
+        // Sort by date descending
+        messages.sort((a, b) => new Date(b.date) - new Date(a.date));
 
         const templatePath = path.join(process.cwd(), "api", "messages.ejs");
         const html = await ejs.renderFile(templatePath, { messages });
+
         res.setHeader("Content-Type", "text/html");
         return res.status(200).send(html);
     } catch (err) {

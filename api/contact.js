@@ -1,4 +1,4 @@
-import { put, get } from "@vercel/blob";
+import { put } from "@vercel/blob";
 
 export const config = { runtime: "nodejs" };
 
@@ -6,9 +6,7 @@ export default async function handler(req, res) {
     try {
         if (req.method !== "POST") {
             res.setHeader("Allow", ["POST"]);
-            return res
-                .status(405)
-                .json({ error: `Method ${req.method} Not Allowed` });
+            return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
         }
 
         const { name, email, phone, message } = req.body || {};
@@ -18,21 +16,9 @@ export default async function handler(req, res) {
                 .json({ error: "Name, email, and message are required." });
         }
 
-        const key = "contacts.json";
+        // Create a unique filename for each message
+        const key = `contacts/${Date.now()}.json`;
 
-        // Load existing array from blob if it exists
-        let arr = [];
-        try {
-            const { url } = await get(key); // throws if blob missing
-            const r = await fetch(url, { cache: "no-store" });
-            if (r.ok) {
-                arr = await r.json();
-            }
-        } catch {
-            arr = []; // file not found, start fresh
-        }
-
-        // Append new entry
         const entry = {
             id: Date.now(),
             name: String(name).slice(0, 200),
@@ -41,22 +27,15 @@ export default async function handler(req, res) {
             message: String(message).slice(0, 5000),
             date: new Date().toISOString(),
         };
-        arr.push(entry);
 
-        // Overwrite blob with updated array using token
-        const blob = await put(key, JSON.stringify(arr, null, 2), {
+        // Save as a new blob (append-only)
+        const blob = await put(key, JSON.stringify(entry, null, 2), {
             access: "public",
             contentType: "application/json",
-            token: process.env.BLOB_READ_WRITE_TOKEN, // ✅ needed for overwrite
+            token: process.env.BLOB_READ_WRITE_TOKEN,
         });
 
-        console.log("contacts.json updated:", blob.url, "count:", arr.length);
-        return res.status(200).json({
-            success: true,
-            url: blob.url,
-            saved: entry,
-            count: arr.length,
-        });
+        return res.status(200).json({ success: true, url: blob.url, saved: entry });
     } catch (err) {
         console.error("contact error:", err);
         return res
