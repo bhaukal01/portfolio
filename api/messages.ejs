@@ -6,33 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Contact Messages</title>
     <style>
-        :root {
-            --b: #e5e7eb;
-            --fg: #0f172a;
-            --muted: #475569;
-        }
-
         body {
-            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto;
+            font-family: sans-serif;
             margin: 24px;
-            color: var(--fg);
+            color: #0f172a;
         }
 
         h1 {
-            margin: 0 0 16px 0;
+            margin-bottom: 16px;
         }
 
         .pill {
-            display: inline-block;
-            border: 1px solid var(--b);
+            border: 1px solid #e5e7eb;
             padding: 2px 8px;
             border-radius: 999px;
             font-size: 12px;
-            color: var(--muted);
+            color: #475569;
         }
 
         .card {
-            border: 1px solid var(--b);
+            border: 1px solid #e5e7eb;
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
@@ -46,7 +39,7 @@
 
         .k {
             width: 100px;
-            color: var(--muted);
+            color: #475569;
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: .04em;
@@ -56,13 +49,18 @@
             font-size: 14px;
         }
 
-        .empty {
-            color: var(--muted);
-        }
-
         pre {
             white-space: pre-wrap;
             margin: 0;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            padding: 4px 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -73,10 +71,10 @@
         </span></h1>
 
     <% if (!messages.length) { %>
-        <p class="empty">No messages yet.</p>
+        <p style="color:#475569;">No messages yet.</p>
         <% } %>
 
-            <% messages.slice().reverse().forEach((m)=> { %>
+            <% messages.forEach((m)=> { %>
                 <div class="card">
                     <div class="row">
                         <div class="k">When</div>
@@ -96,26 +94,30 @@
                             <%= m.email %>
                         </div>
                     </div>
-                    <% if (m.phone) { %>
-                        <div class="row">
-                            <div class="k">Phone</div>
-                            <div class="v">
-                                <%= m.phone %>
-                            </div>
+                    <div class="row">
+                        <div class="k">Phone</div>
+                        <div class="v">
+                            <%= m.phone %>
                         </div>
-                        <% } %>
-                            <div class="row">
-                                <div class="k">Message</div>
-                                <div class="v">
-                                    <pre><%= m.message %></pre>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="k">ID</div>
-                                <div class="v">
-                                    <%= m.id %>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="k">Message</div>
+                        <div class="v">
+                            <pre><%= m.message %></pre>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="k">ID</div>
+                        <div class="v">
+                            <%= m.id %>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <form method="POST" action="/api/delete" onsubmit="return confirm('Delete this message?')">
+                            <input type="hidden" name="key" value="<%= m.key %>" />
+                            <button type="submit" class="delete-btn">Delete</button>
+                        </form>
+                    </div>
                 </div>
                 <% }) %>
 </body>

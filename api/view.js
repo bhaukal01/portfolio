@@ -6,9 +6,28 @@ export const config = { runtime: "nodejs" };
 
 export default async function handler(req, res) {
     try {
-        let messages = [];
+        const url = new URL(req.url, `http://${req.headers.host}`);
+        const pin = url.searchParams.get("pin");
 
-        // List all blobs under "contacts/"
+        // If no pin given, show browser prompt
+        if (!pin) {
+            return res.status(401).send(`
+        <script>
+          const p = prompt("Enter PIN:");
+          if (p !== null) {
+            window.location = "/api/view?pin=" + encodeURIComponent(p);
+          }
+        </script>
+      `);
+        }
+
+        // Validate pin
+        if (pin !== process.env.VIEW_PIN) {
+            return res.status(403).send("<h1>Unauthorized</h1><p>Invalid PIN</p>");
+        }
+
+        // Load messages
+        let messages = [];
         const { blobs } = await list({ prefix: "contacts/" });
 
         for (const blob of blobs) {
@@ -16,14 +35,11 @@ export default async function handler(req, res) {
                 const r = await fetch(blob.url, { cache: "no-store" });
                 if (r.ok) {
                     const data = await r.json();
-                    messages.push(data);
+                    messages.push({ ...data, key: blob.pathname });
                 }
-            } catch {
-                // ignore bad blobs
-            }
+            } catch { }
         }
 
-        // Sort by date descending
         messages.sort((a, b) => new Date(b.date) - new Date(a.date));
 
         const templatePath = path.join(process.cwd(), "api", "messages.ejs");

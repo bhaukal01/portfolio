@@ -16,7 +16,7 @@ export default async function handler(req, res) {
                 .json({ error: "Name, email, and message are required." });
         }
 
-        // Create a unique filename for each message
+        // Unique key for each submission
         const key = `contacts/${Date.now()}.json`;
 
         const entry = {
@@ -28,7 +28,6 @@ export default async function handler(req, res) {
             date: new Date().toISOString(),
         };
 
-        // Save as a new blob (append-only)
         const blob = await put(key, JSON.stringify(entry, null, 2), {
             access: "public",
             contentType: "application/json",
