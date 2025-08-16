@@ -1,76 +1,119 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>Contact Messages</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Messages</title>
     <style>
+        :root {
+            --b: #e5e7eb;
+            --fg: #0f172a;
+            --muted: #475569;
+            --green: #059669;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto;
+            margin: 24px;
+            color: var(--fg);
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+        .card {
+            border: 1px solid var(--b);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
         }
 
-        th,
-        td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
+        .row {
+            display: flex;
+            gap: 12px;
+            align-items: baseline;
         }
 
-        th {
-            background: #f4f4f4;
+        .k {
+            width: 100px;
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
         }
 
-        tr:nth-child(even) {
-            background: #fafafa;
+        .v {
+            font-size: 14px;
+        }
+
+        h1 {
+            margin: 0 0 16px 0;
+        }
+
+        .pill {
+            display: inline-block;
+            border: 1px solid var(--b);
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .empty {
+            color: var(--muted);
         }
     </style>
 </head>
 
 <body>
-    <h1>📩 Contact Messages</h1>
-    <% if (messages.length===0) { %>
-        <p>No messages yet.</p>
-        <% } else { %>
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Message</th>
-                    <th>Date</th>
-                </tr>
-                <% messages.forEach(msg=> { %>
-                    <tr>
-                        <td>
-                            <%= msg.id %>
-                        </td>
-                        <td>
-                            <%= msg.name %>
-                        </td>
-                        <td>
-                            <%= msg.email %>
-                        </td>
-                        <td>
-                            <%= msg.phone %>
-                        </td>
-                        <td>
-                            <%= msg.message %>
-                        </td>
-                        <td>
-                            <%= msg.date %>
-                        </td>
-                    </tr>
-                    <% }) %>
-            </table>
-            <% } %>
+    <h1>Contact Messages <span class="pill">
+            <%= messages.length %>
+        </span></h1>
+
+    <% if (!messages.length) { %>
+        <p class="empty">No messages yet.</p>
+        <% } %>
+
+            <% messages.slice().reverse().forEach((m)=> { %>
+                <div class="card">
+                    <div class="row">
+                        <div class="k">When</div>
+                        <div class="v">
+                            <%= new Date(m.date).toLocaleString() %>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="k">Name</div>
+                        <div class="v">
+                            <%= m.name %>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="k">Email</div>
+                        <div class="v">
+                            <%= m.email %>
+                        </div>
+                    </div>
+                    <% if (m.phone) { %>
+                        <div class="row">
+                            <div class="k">Phone</div>
+                            <div class="v">
+                                <%= m.phone %>
+                            </div>
+                        </div>
+                        <% } %>
+                            <div class="row">
+                                <div class="k">Message</div>
+                                <div class="v">
+                                    <pre style="white-space:pre-wrap;margin:0"><%= m.message %></pre>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="k">ID</div>
+                                <div class="v">
+                                    <%= m.id %>
+                                </div>
+                            </div>
+                </div>
+                <% }) %>
 </body>
 
 </html>

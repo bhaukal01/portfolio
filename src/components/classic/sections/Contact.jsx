@@ -5,48 +5,43 @@ export default function Contact() {
   const contact = profile?.contact ?? {};
   const socials = profile?.socials ?? {};
 
-  const [form, setForm] = useState({
+  const [values, setValues] = useState({
     name: "",
     email: "",
     phone: "",
     message: "",
   });
-
   const [status, setStatus] = useState({
     loading: false,
-    success: null,
-    error: null,
+    success: "",
+    error: "",
   });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
+  async function onSubmit(e) {
     e.preventDefault();
-    setStatus({ loading: true, success: null, error: null });
-
+    setStatus({ loading: true, success: "", error: "" });
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(values),
       });
-
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.error || "Something went wrong");
-
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Failed to send");
       setStatus({
         loading: false,
         success: "Message sent successfully!",
-        error: null,
+        error: "",
       });
-      setForm({ name: "", email: "", phone: "", message: "" });
+      setValues({ name: "", email: "", phone: "", message: "" });
     } catch (err) {
-      setStatus({ loading: false, success: null, error: err.message });
+      setStatus({
+        loading: false,
+        success: "",
+        error: String(err.message || err),
+      });
     }
-  };
+  }
 
   return (
     <section id="contact" className="mx-auto max-w-6xl px-4 py-12">
@@ -58,7 +53,7 @@ export default function Contact() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* Details card */}
+        {/* Details */}
         <div className="rounded-xl border border-slate-200 bg-white p-5">
           <h3 className="mb-3 text-sm font-semibold text-slate-800">
             Contact details
@@ -142,90 +137,94 @@ export default function Contact() {
           )}
         </div>
 
-        {/* Form card */}
+        {/* Form */}
         <div className="lg:col-span-2">
           <form
+            onSubmit={onSubmit}
             className="rounded-xl border border-slate-200 bg-white p-5"
-            onSubmit={handleSubmit}
           >
             <h3 className="mb-3 text-sm font-semibold text-slate-800">
               Send a message
             </h3>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              {/* Name */}
               <div className="sm:col-span-1">
                 <label
                   className="mb-1 block text-xs font-medium text-slate-700"
-                  htmlFor="contact-name"
+                  htmlFor="name"
                 >
                   Name <span className="text-red-600">*</span>
                 </label>
                 <input
-                  id="contact-name"
+                  id="name"
                   name="name"
                   type="text"
-                  value={form.name}
-                  onChange={handleChange}
+                  value={values.name}
+                  onChange={(e) =>
+                    setValues((v) => ({ ...v, name: e.target.value }))
+                  }
                   required
                   className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm outline-none focus:ring-2 focus:ring-emerald-200"
                   placeholder="John Doe"
                 />
               </div>
 
-              {/* Email */}
               <div className="sm:col-span-1">
                 <label
                   className="mb-1 block text-xs font-medium text-slate-700"
-                  htmlFor="contact-email"
+                  htmlFor="email"
                 >
                   Email <span className="text-red-600">*</span>
                 </label>
                 <input
-                  id="contact-email"
+                  id="email"
                   name="email"
                   type="email"
-                  value={form.email}
-                  onChange={handleChange}
+                  value={values.email}
+                  onChange={(e) =>
+                    setValues((v) => ({ ...v, email: e.target.value }))
+                  }
                   required
                   className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm outline-none focus:ring-2 focus:ring-emerald-200"
                   placeholder="john@example.com"
                 />
               </div>
 
-              {/* Phone */}
               <div className="sm:col-span-2">
                 <label
                   className="mb-1 block text-xs font-medium text-slate-700"
-                  htmlFor="contact-phone"
+                  htmlFor="phone"
                 >
                   Phone
                 </label>
                 <input
-                  id="contact-phone"
+                  id="phone"
                   name="phone"
                   type="tel"
-                  value={form.phone}
-                  onChange={handleChange}
+                  value={values.phone}
+                  onChange={(e) =>
+                    setValues((v) => ({ ...v, phone: e.target.value }))
+                  }
                   className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm outline-none focus:ring-2 focus:ring-emerald-200"
                   placeholder="+91 98765 43210"
                 />
               </div>
 
-              {/* Message */}
               <div className="sm:col-span-2">
                 <label
                   className="mb-1 block text-xs font-medium text-slate-700"
-                  htmlFor="contact-message"
+                  htmlFor="message"
                 >
                   Message <span className="text-red-600">*</span>
                 </label>
                 <textarea
-                  id="contact-message"
+                  id="message"
                   name="message"
                   rows={5}
-                  value={form.message}
-                  onChange={handleChange}
+                  value={values.message}
+                  onChange={(e) =>
+                    setValues((v) => ({ ...v, message: e.target.value }))
+                  }
                   required
                   className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-200"
                   placeholder="Tell me a bit about your project…"
@@ -235,26 +234,33 @@ export default function Contact() {
 
             {/* Status messages */}
             {status.error && (
-              <p className="mt-3 text-sm text-red-600">{status.error}</p>
+              <div className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+                {status.error}
+              </div>
             )}
             {status.success && (
-              <p className="mt-3 text-sm text-green-600">{status.success}</p>
+              <div className="mt-3 rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
+                {status.success}
+              </div>
             )}
 
-            {/* Buttons */}
             <div className="mt-4 flex items-center gap-2">
               <button
                 type="submit"
                 disabled={status.loading}
-                className="inline-flex h-10 items-center rounded-md bg-emerald-600 px-4 text-[15px] font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+                className={[
+                  "inline-flex h-10 items-center rounded-md bg-emerald-600 px-4 text-[15px] font-medium text-white",
+                  status.loading ? "opacity-75" : "hover:bg-emerald-700",
+                ].join(" ")}
               >
                 {status.loading ? "Sending..." : "Send message"}
               </button>
               <button
                 type="reset"
-                onClick={() =>
-                  setForm({ name: "", email: "", phone: "", message: "" })
-                }
+                onClick={() => {
+                  setValues({ name: "", email: "", phone: "", message: "" });
+                  setStatus({ loading: false, success: "", error: "" });
+                }}
                 className="inline-flex h-10 items-center rounded-md border border-slate-300 bg-white px-4 text-[15px] font-medium text-slate-800 hover:bg-slate-50"
               >
                 Reset
