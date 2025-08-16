@@ -6,41 +6,33 @@ export default async function handler(req, res) {
     try {
         if (req.method !== "POST") {
             res.setHeader("Allow", ["POST"]);
-            return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
+            return res
+                .status(405)
+                .json({ error: `Method ${req.method} Not Allowed` });
         }
 
         const { name, email, phone, message } = req.body || {};
         if (!name || !email || !message) {
-            return res.status(400).json({ error: "Name, email, and message are required." });
+            return res
+                .status(400)
+                .json({ error: "Name, email, and message are required." });
         }
 
         const key = "contacts.json";
 
-        // 1) Load current array from blob if it exists
+        // Load existing array from blob if it exists
         let arr = [];
         try {
             const { url } = await get(key); // throws if blob missing
             const r = await fetch(url, { cache: "no-store" });
             if (r.ok) {
-                try {
-                    arr = await r.json();
-                } catch {
-                    const txt = await r.text();
-                    try {
-                        arr = JSON.parse(txt);
-                    } catch {
-                        arr = [];
-                    }
-                }
-            } else {
-                arr = [];
+                arr = await r.json();
             }
         } catch {
-            // First write (blob not found) – start fresh
-            arr = [];
+            arr = []; // file not found, start fresh
         }
 
-        // 2) Append entry (light sanitization)
+        // Append new entry
         const entry = {
             id: Date.now(),
             name: String(name).slice(0, 200),
@@ -49,22 +41,26 @@ export default async function handler(req, res) {
             message: String(message).slice(0, 5000),
             date: new Date().toISOString(),
         };
-        if (!Array.isArray(arr)) arr = [];
         arr.push(entry);
 
-        // 3) Overwrite the blob with updated array
+        // Overwrite blob with updated array using token
         const blob = await put(key, JSON.stringify(arr, null, 2), {
             access: "public",
             contentType: "application/json",
-            // default addRandomSuffix=false -> overwrite same key
+            token: process.env.BLOB_READ_WRITE_TOKEN, // ✅ needed for overwrite
         });
 
         console.log("contacts.json updated:", blob.url, "count:", arr.length);
-        return res
-            .status(200)
-            .json({ success: true, url: blob.url, saved: entry, count: arr.length });
+        return res.status(200).json({
+            success: true,
+            url: blob.url,
+            saved: entry,
+            count: arr.length,
+        });
     } catch (err) {
         console.error("contact error:", err);
-        return res.status(500).json({ error: "Server error", detail: String(err) });
+        return res
+            .status(500)
+            .json({ error: "Server error", detail: String(err) });
     }
 }

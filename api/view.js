@@ -11,16 +11,7 @@ export default async function handler(req, res) {
             const { url } = await get("contacts.json");
             const r = await fetch(url, { cache: "no-store" });
             if (r.ok) {
-                try {
-                    messages = await r.json();
-                } catch {
-                    const t = await r.text();
-                    try {
-                        messages = JSON.parse(t);
-                    } catch {
-                        messages = [];
-                    }
-                }
+                messages = await r.json();
             }
         } catch {
             messages = [];
