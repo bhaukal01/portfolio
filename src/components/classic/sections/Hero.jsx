@@ -70,7 +70,7 @@ export default function Hero() {
               <img
                 src={about.image}
                 alt={about.name}
-                className="flex h-full items-center justify-center text-slate-400"
+                className="flex items-center justify-center text-slate-400"
               />
             </div>
           </div>
