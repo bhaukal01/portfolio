@@ -1,7 +1,7 @@
 {
     "about": {
         "name": "Aditya Narayan",
-        "title": "Full Stack Developer",
+        "title": [  "Aspiring DevOps Engineer", "Cloud Enthusiast", "Full Stack Developer" ],
         "image": "https://ik.imagekit.io/1usyzu9ab/portfolio-pic.png?updatedAt=1761784254168",
         "summary": "Driven Computer Science student with a strong passion for DevOps and cloud technologies. Currently pursuing a Bachelor's degree, I am eager to apply theoretical knowledge to practical projects. Possessing a strong foundation in programming and problem-solving, I am seeking opportunities to contribute to innovative tech solutions. Keen learner with a desire to excel in the dynamic world of cloud computing and automation."
     },

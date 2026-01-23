@@ -9,21 +9,30 @@ import Skills from "./sections/Skills";
 import Footer from "./sections/Footer";
 import Contact from "./sections/Contact";
 import Work from "./sections/pastWork.jsx";
+import ClickSpark from "./../reactBits/ClickSpark";
 
 export default function ClassicHome() {
   return (
-    <div className="min-h-[calc(100vh-44px)]">
-      <ClassicNavbar />
-      <Hero />
-      <QuickFacts />
-      <Skills />
-      <Work />
-      {/* <Education /> */}
-      {/* <Certifications /> */}
-      <Projects />
-      <Experience />
-      <Contact />
-      <Footer />
-    </div>
+    <ClickSpark
+      sparkColor="#00ff1a"
+      sparkSize={10}
+      sparkRadius={15}
+      sparkCount={8}
+      duration={400}
+    >
+      <div className="min-h-[calc(100vh-44px)]">
+        <ClassicNavbar />
+        <Hero />
+        <QuickFacts />
+        <Skills />
+        <Work />
+        {/* <Education /> */}
+        {/* <Certifications /> */}
+        <Projects />
+        <Experience />
+        <Contact />
+        <Footer />
+      </div>
+    </ClickSpark>
   );
 }

@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import profile from "../../../../data/profile.json";
 import { gsap } from "gsap";
+import RotatingText from "./../../reactBits/RotatingText.jsx";
+import TextType from "@/components/reactBits/TextType";
 
 // animations
 const container = {
@@ -53,23 +55,48 @@ export default function Hero() {
             <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>Available for new opportunities</span>
           </motion.div>
-
           <motion.h1
             variants={item}
             className="text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl"
           >
             {about.name || "Your Name"}
           </motion.h1>
-
-          <motion.p variants={item} className="text-lg text-slate-700">
+          {/* <motion.p variants={item} className="text-lg text-slate-700">
             {about.title || "Web Developer"}
-          </motion.p>
-
+          </motion.p> */}
+          {/* <RotatingText
+            texts={["React", "Bits", "Is", "Cool!"]}
+            mainClassName="px-2 sm:px-2 md:px-3 bg-cyan-300 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
+            staggerFrom={"last"}
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "-120%" }}
+            staggerDuration={0.025}
+            splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+            transition={{ type: "spring", damping: 30, stiffness: 400 }}
+            rotationInterval={2000}
+          /> */}
+          <motion.div
+            variants={item}
+            className="inline-flex items-center gap-2 text-xl font-bold text-slate-600"
+          >
+            <TextType
+              text={about.title}
+              typingSpeed={60}
+              pauseDuration={1500}
+              showCursor
+              cursorCharacter="▎"
+              deletingSpeed={50}
+              variableSpeedEnabled={false}
+              variableSpeedMin={60}
+              variableSpeedMax={120}
+              cursorBlinkDuration={0.5}
+            />
+          </motion.div>
           <motion.p variants={item} className="text-slate-600">
             {about.summary ||
               "Passionate developer with experience in building responsive web applications using modern technologies."}
           </motion.p>
-
           {/* ===== ACTION BUTTONS ===== */}
           <motion.div
             variants={item}
@@ -99,7 +126,6 @@ export default function Hero() {
               Download CV
             </a>
           </motion.div>
-
           <motion.div variants={item}>
             <SocialRow socials={socials} contact={contact} />
           </motion.div>
@@ -129,7 +155,7 @@ export default function Hero() {
   );
 }
 
-// social icons row 
+// social icons row
 function SocialRow({ socials = {}, contact = {} }) {
   const items = [
     socials.github && {
