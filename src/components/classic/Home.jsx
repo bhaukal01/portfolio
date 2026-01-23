@@ -8,6 +8,7 @@ import Experience from "./sections/Experience";
 import Skills from "./sections/Skills";
 import Footer from "./sections/Footer";
 import Contact from "./sections/Contact";
+import Work from "./sections/pastWork.jsx";
 
 export default function ClassicHome() {
   return (
@@ -16,8 +17,9 @@ export default function ClassicHome() {
       <Hero />
       <QuickFacts />
       <Skills />
-      <Education />
-      <Certifications />
+      <Work />
+      {/* <Education /> */}
+      {/* <Certifications /> */}
       <Projects />
       <Experience />
       <Contact />

@@ -1,0 +1,11 @@
+[
+    {
+        "title": "ACED-2025 Website",
+        "description": "Website for the ACED-2025 All India conference.",
+        "image": "https://ik.imagekit.io/1usyzu9ab/Screenshot%202026-01-23%20012132.png",
+        "iframe": "https://adityx.me",
+        "live": "https://aced2025.org",
+        "status": "completed",
+        "tech": ["ReactJS","Tailwind CSS"]
+    }
+]

@@ -1,120 +1,162 @@
+import { motion } from "framer-motion";
 import profile from "../../../../data/profile.json";
+import { gsap } from "gsap";
+
+// animations
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.15 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const imageVariant = {
+  hidden: { opacity: 0, scale: 0.95 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.7, ease: "easeOut" },
+  },
+};
 
 export default function Hero() {
   const about = profile?.about ?? {};
   const contact = profile?.contact ?? {};
   const socials = profile?.socials ?? {};
 
-  // Path to CV at the project root; place CV.pdf in the root (served as /CV.pdf)
   const cvHref = "https://ik.imagekit.io/1usyzu9ab/CV.pdf";
 
   return (
     <section id="about" className="mx-auto max-w-6xl px-4 pt-10 pb-12">
       <div className="grid items-center gap-8 md:grid-cols-2">
-        <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 text-xs text-slate-600">
-            <span className="size-1.5 rounded-full bg-emerald-500" />
+        {/* ================= LEFT CONTENT ================= */}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="space-y-4"
+        >
+          <motion.div
+            variants={item}
+            className="inline-flex items-center gap-2 text-xs text-slate-600"
+          >
+            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>Available for new opportunities</span>
-          </div>
+          </motion.div>
 
-          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
+          <motion.h1
+            variants={item}
+            className="text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl"
+          >
             {about.name || "Your Name"}
-          </h1>
+          </motion.h1>
 
-          <p className="text-lg text-slate-700">
+          <motion.p variants={item} className="text-lg text-slate-700">
             {about.title || "Web Developer"}
-          </p>
+          </motion.p>
 
-          <p className="text-slate-600">
+          <motion.p variants={item} className="text-slate-600">
             {about.summary ||
               "Passionate developer with experience in building responsive web applications using modern technologies."}
-          </p>
+          </motion.p>
 
-          {/* Primary actions */}
-          <div className="flex flex-wrap items-center gap-2 pt-2">
+          {/* ===== ACTION BUTTONS ===== */}
+          <motion.div
+            variants={item}
+            className="flex flex-wrap items-center gap-2 pt-2"
+          >
             <a
               href="#projects"
-              className="inline-flex h-10 items-center rounded-md bg-emerald-600 px-4 text-[15px] font-medium text-white transition hover:bg-emerald-700"
+              className="inline-flex h-10 items-center rounded-md bg-emerald-600 px-4 text-[15px] font-medium text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-emerald-700"
             >
               View projects
             </a>
 
             <a
               href="#contact"
-              className="inline-flex h-10 items-center rounded-md border border-slate-300 bg-white px-4 text-[15px] font-medium text-slate-800 transition hover:bg-slate-50"
+              className="inline-flex h-10 items-center rounded-md border border-slate-300 bg-white px-4 text-[15px] font-medium text-slate-800 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50"
             >
               Contact
             </a>
 
-            {/* Download CV button (forces download of /cv.pdf) */}
             <a
               href={cvHref}
               download
               target="_blank"
-              className="inline-flex h-10 items-center rounded-md border border-slate-300 bg-white px-4 text-[15px] font-medium text-slate-800 transition hover:bg-slate-50"
-              title="Download CV (PDF)"
+              rel="noreferrer"
+              className="inline-flex h-10 items-center rounded-md border border-slate-300 bg-white px-4 text-[15px] font-medium text-slate-800 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50"
             >
               Download CV
             </a>
-          </div>
+          </motion.div>
 
-          {/* Socials row (circular buttons) */}
-          <SocialRow socials={socials} contact={contact} />
-        </div>
+          <motion.div variants={item}>
+            <SocialRow socials={socials} contact={contact} />
+          </motion.div>
+        </motion.div>
 
-        {/* Right visual */}
-        <div className="relative">
-          <div className="absolute -inset-6 rounded-3xl bg-[color:color-mix(in_srgb,#84cc16_10%,transparent)] blur-xl" />
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_30px_rgba(2,6,23,0.06)]">
-            <div className="flex h-full items-center justify-center text-slate-400">
-              <img
-                src={about.image}
-                alt={about.name}
-                className="flex items-center justify-center text-slate-400"
-              />
-            </div>
+        {/* ================= RIGHT IMAGE ================= */}
+        <motion.div
+          variants={imageVariant}
+          initial="hidden"
+          animate="show"
+          whileHover={{ scale: 1.04, rotate: 0.6 }}
+          transition={{ type: "spring", stiffness: 120 }}
+          className="relative group"
+        >
+          <div className="absolute -inset-6 rounded-3xl bg-[color:color-mix(in_srgb,#84cc16_15%,transparent)] blur-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_15px_40px_rgba(2,6,23,0.12)]">
+            <img
+              src={about.image}
+              alt={about.name}
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
 
+// social icons row 
 function SocialRow({ socials = {}, contact = {} }) {
   const items = [
-    socials.github
-      ? {
-          key: "github",
-          href: socials.github,
-          label: "GitHub",
-          icon: GitHubIcon,
-        }
-      : null,
-    socials.linkedin
-      ? {
-          key: "linkedin",
-          href: socials.linkedin,
-          label: "LinkedIn",
-          icon: LinkedInIcon,
-        }
-      : null,
-    socials.X ? { key: "x", href: socials.X, label: "X", icon: XIcon } : null,
-    socials.instagram
-      ? {
-          key: "instagram",
-          href: socials.instagram,
-          label: "Instagram",
-          icon: InstagramIcon,
-        }
-      : null,
-    contact.email
-      ? {
-          key: "email",
-          href: `mailto:${contact.email}`,
-          label: "Email",
-          icon: MailIcon,
-        }
-      : null,
+    socials.github && {
+      key: "github",
+      href: socials.github,
+      label: "GitHub",
+      icon: GitHubIcon,
+    },
+    socials.linkedin && {
+      key: "linkedin",
+      href: socials.linkedin,
+      label: "LinkedIn",
+      icon: LinkedInIcon,
+    },
+    socials.X && { key: "x", href: socials.X, label: "X", icon: XIcon },
+    socials.instagram && {
+      key: "instagram",
+      href: socials.instagram,
+      label: "Instagram",
+      icon: InstagramIcon,
+    },
+    contact.email && {
+      key: "email",
+      href: `mailto:${contact.email}`,
+      label: "Email",
+      icon: MailIcon,
+    },
   ].filter(Boolean);
 
   if (!items.length) return null;
@@ -128,14 +170,15 @@ function SocialRow({ socials = {}, contact = {} }) {
             href={href}
             target={key === "email" ? undefined : "_blank"}
             rel={key === "email" ? undefined : "noreferrer"}
+            aria-label={label}
+            title={label}
             className="
               inline-flex size-9 items-center justify-center rounded-full
               border border-slate-200 bg-white text-slate-700
-              hover:bg-slate-50 hover:text-slate-900
-              transition
+              transition-all duration-200
+              hover:-translate-y-1 hover:scale-110
+              hover:bg-emerald-50 hover:text-emerald-600
             "
-            aria-label={label}
-            title={label}
           >
             <Icon className="size-4" />
           </a>
@@ -145,7 +188,7 @@ function SocialRow({ socials = {}, contact = {} }) {
   );
 }
 
-/* Icons (minimal inline SVGs) */
+// icons
 function GitHubIcon({ className = "size-4" }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
